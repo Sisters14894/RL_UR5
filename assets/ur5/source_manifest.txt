@@ -1,0 +1,13 @@
+Model family: Universal Robots UR5
+Description format: standalone engineering URDF with primitive visual/collision shapes
+
+Primary sources checked:
+- https://raw.githubusercontent.com/ros-industrial/universal_robot/noetic-devel/ur_description/config/ur5/default_kinematics.yaml
+- https://raw.githubusercontent.com/ros-industrial/universal_robot/noetic-devel/ur_description/config/ur5/joint_limits.yaml
+- https://raw.githubusercontent.com/ros-industrial/universal_robot/noetic-devel/ur_description/config/ur5/physical_parameters.yaml
+
+Notes:
+- Link transforms use the ROS Industrial canonical UR5 convention.
+- Masses, centers of mass, and inertia tensors are copied from physical_parameters.yaml.
+- Base-link inertia in this simplified URDF uses an isotropic approximation because the source file does not define one directly for base_link.
+- Visual/collision primitive dimensions are conservative approximations intended for simulation.

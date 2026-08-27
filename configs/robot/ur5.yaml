@@ -1,0 +1,106 @@
+model:
+  name: ur5
+  urdf: ../../assets/ur5/ur5.urdf
+  base_frame: base_link
+  tool_frame: flange
+
+joints:
+  names:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+  position_limit_lower:
+    - -6.283185307179586
+    - -6.283185307179586
+    - -3.141592653589793
+    - -6.283185307179586
+    - -6.283185307179586
+    - -6.283185307179586
+  position_limit_upper:
+    - 6.283185307179586
+    - 6.283185307179586
+    - 3.141592653589793
+    - 6.283185307179586
+    - 6.283185307179586
+    - 6.283185307179586
+  velocity_limit:
+    - 3.141592653589793
+    - 3.141592653589793
+    - 3.141592653589793
+    - 3.141592653589793
+    - 3.141592653589793
+    - 3.141592653589793
+  effort_limit:
+    - 150.0
+    - 150.0
+    - 150.0
+    - 28.0
+    - 28.0
+    - 28.0
+
+initial_position:
+  - 0.0
+  - -1.5707963267948966
+  - 1.5707963267948966
+  - 0.0
+  - 0.0
+  - 0.0
+
+# These are simulation-only starting gains, not factory calibration values.
+actuators:
+  type: implicit_position_target
+  stiffness:
+    - 400.0
+    - 400.0
+    - 300.0
+    - 80.0
+    - 80.0
+    - 20.0
+  damping:
+    - 8.0
+    - 8.0
+    - 6.0
+    - 1.5
+    - 1.5
+    - 0.5
+  friction: 0.0
+
+# Classical DH rows: theta_offset, d, a, alpha.
+# a is signed according to the standard UR x-axis convention.
+dh_parameters:
+  d:
+    - 0.089159
+    - 0.0
+    - 0.0
+    - 0.10915
+    - 0.09465
+    - 0.0823
+  a:
+    - 0.0
+    - -0.425
+    - -0.39225
+    - 0.0
+    - 0.0
+    - 0.0
+  alpha:
+    - 1.5707963267948966
+    - 0.0
+    - 0.0
+    - 1.5707963267948966
+    - -1.5707963267948966
+    - 0.0
+  theta_offset:
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+    - 0.0
+
+# Additional physical offsets used by the canonical URDF/DH convention.
+physical:
+  shoulder_offset: 0.13585
+  elbow_offset: 0.0165
