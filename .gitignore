@@ -38,6 +38,7 @@ events.out.tfevents.*
 
 # Generated simulation artifacts
 generated/
+/.tmp_ur_macro.xacro
 *.tmp
 *.lock.tmp
 
