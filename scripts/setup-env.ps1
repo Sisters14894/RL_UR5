@@ -22,6 +22,7 @@ $VenvPython = Join-Path $VenvDir "Scripts\python.exe"
 $env:UV_PYTHON_INSTALL_DIR = Join-Path $IsaacRoot "python"
 $env:UV_CACHE_DIR = Join-Path $IsaacRoot "cache\uv"
 $env:PIP_CACHE_DIR = Join-Path $IsaacRoot "cache\pip"
+$env:PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple"
 $env:TMP = Join-Path $IsaacRoot "tmp"
 $env:TEMP = $env:TMP
 
@@ -67,7 +68,10 @@ $IsaacLabDir = Join-Path $IsaacRoot "IsaacLab"
 if ($InstallIsaacLab) {
     if (-not (Test-Path -LiteralPath $IsaacLabDir)) {
         Write-Host "Cloning Isaac Lab $IsaacLabVersion"
-        git clone https://github.com/isaac-sim/IsaacLab.git $IsaacLabDir `
+        # Bypass a stale global proxy only for this clone.
+        git -c http.proxy= -c https.proxy= clone `
+            https://github.com/isaac-sim/IsaacLab.git `
+            $IsaacLabDir `
             --branch $IsaacLabVersion
         if ($LASTEXITCODE -ne 0) { throw "Isaac Lab clone failed" }
     }
