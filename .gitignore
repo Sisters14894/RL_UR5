@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local environments and machine-specific configuration
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Training and experiment outputs
+logs/
+runs/
+wandb/
+checkpoints/
+outputs/
+cache/
+datasets/
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.torchscript
+*.tensorboard
+events.out.tfevents.*
+
+# Generated simulation artifacts
+generated/
+*.tmp
+*.lock.tmp
+
+# Large local assets are added intentionally when needed
+assets/**/*.usd*
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

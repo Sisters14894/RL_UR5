@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ur5-rl"
+version = "0.1.0"
+description = "UR5 reinforcement learning experiments with Isaac Sim and Isaac Lab"
+requires-python = ">=3.12,<3.13"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+  "ruff>=0.8",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
