@@ -17,8 +17,11 @@ D:\Sis\Documents\RL_UR5
 ├── pyproject.toml
 ├── scripts/
 │   ├── setup-env.ps1     # 环境创建和完整复现脚本
-│   └── verify-env.py     # 无下载的环境检查脚本
-└── src/ur5_rl/           # 项目 Python 包
+│   ├── verify-env.py     # 无下载的环境检查脚本
+│   ├── convert-urdf.py   # URDF -> USD 转换
+│   ├── check-reach-env.py # Ur5Reach-v0 冒烟测试
+│   └── train-reach.py    # RSL-RL 训练入口
+└── src/ur5_rl/           # 项目 Python 包（含 tasks/reach 环境）
 ```
 
 `G:` 盘保存可随时重建的大型环境：
@@ -90,6 +93,30 @@ powershell -ExecutionPolicy Bypass -File .\scripts\setup-env.ps1 `
   -InstallIsaacSim `
   -InstallIsaacLab
 ```
+
+## UR5 Reach 任务
+
+先把 URDF 转成 USD。转换脚本默认**不合并固定关节**，因此 `flange` 会作为独立工具坐标系保留：
+
+```powershell
+G:\Isaac\RL_UR5\.venv\Scripts\python.exe .\scripts\convert-urdf.py --headless
+```
+
+输出为 `assets\ur5\usd\ur5\ur5.usda`。该目录已被 `.gitignore` 忽略，因为它属于大型生成资产；需要重新生成时加 `--force`，想要合并固定关节时加 `--merge-fixed-joints`。
+
+快速验证环境可以创建并执行 step：
+
+```powershell
+G:\Isaac\RL_UR5\.venv\Scripts\python.exe .\scripts\check-reach-env.py --headless --num_envs 8
+```
+
+开始训练：
+
+```powershell
+G:\Isaac\RL_UR5\.venv\Scripts\python.exe .\scripts\train-reach.py --headless --num_envs 1024 --max_iterations 1000
+```
+
+任务 id 为 `Ur5Reach-v0`，观测维度 25（关节位置 6 + 关节速度 6 + 目标位姿 7 + 上一步动作 6），动作维度 6。训练日志写入 `logs\rsl_rl\reach_ur5\...`，不会进入 Git。
 
 ## 路径配置
 

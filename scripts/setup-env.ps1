@@ -23,6 +23,7 @@ $env:UV_PYTHON_INSTALL_DIR = Join-Path $IsaacRoot "python"
 $env:UV_CACHE_DIR = Join-Path $IsaacRoot "cache\uv"
 $env:PIP_CACHE_DIR = Join-Path $IsaacRoot "cache\pip"
 $env:PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple"
+$env:UV_DEFAULT_INDEX = "https://pypi.tuna.tsinghua.edu.cn/simple"
 $env:TMP = Join-Path $IsaacRoot "tmp"
 $env:TEMP = $env:TMP
 
@@ -50,6 +51,10 @@ if (-not (Test-Path -LiteralPath $VenvPython)) {
     throw "Virtual environment Python was not found: $VenvPython"
 }
 
+# Isaac Lab's batch launcher honors VIRTUAL_ENV instead of the active PATH Python.
+$env:VIRTUAL_ENV = $VenvDir
+$env:Path = "$VenvDir\Scripts;$env:Path"
+
 & $VenvPython -m pip install --upgrade pip
 
 if ($InstallIsaacSim) {
@@ -70,6 +75,8 @@ if ($InstallIsaacLab) {
         Write-Host "Cloning Isaac Lab $IsaacLabVersion"
         # Bypass a stale global proxy only for this clone.
         git -c http.proxy= -c https.proxy= clone `
+            --depth 1 `
+            --single-branch `
             https://github.com/isaac-sim/IsaacLab.git `
             $IsaacLabDir `
             --branch $IsaacLabVersion
@@ -85,6 +92,12 @@ if ($InstallIsaacLab) {
     finally {
         Pop-Location
     }
+
+    Write-Host "Installing Isaac Lab RL extras and task library"
+    & $VenvPython -m pip install -e "$IsaacLabDir\source\isaaclab_rl[rsl-rl]"
+    if ($LASTEXITCODE -ne 0) { throw "Isaac Lab RL extras installation failed" }
+    & $VenvPython -m pip install -e "$IsaacLabDir\source\isaaclab_tasks"
+    if ($LASTEXITCODE -ne 0) { throw "Isaac Lab task library installation failed" }
 
     Write-Host "Installing this project in editable mode"
     & $VenvPython -m pip install -e $ProjectDir

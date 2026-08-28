@@ -44,6 +44,7 @@ generated/
 
 # Large local assets are added intentionally when needed
 assets/**/*.usd*
+assets/ur5/usd/
 
 # IDE and OS
 .vscode/

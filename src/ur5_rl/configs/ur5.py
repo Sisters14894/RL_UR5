@@ -12,6 +12,7 @@ from pathlib import Path
 
 ASSET_ROOT = Path(__file__).resolve().parents[3] / "assets"
 URDF_PATH = ASSET_ROOT / "ur5" / "ur5.urdf"
+USD_PATH = ASSET_ROOT / "ur5" / "usd" / "ur5" / "ur5.usda"
 
 N_JOINTS = 6
 JOINT_NAMES = (

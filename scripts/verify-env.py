@@ -17,7 +17,7 @@ def main() -> int:
     if expected_root:
         print(f"Isaac root exists: {Path(expected_root).exists()}")
 
-    for package in ("torch", "isaacsim", "isaaclab"):
+    for package in ("torch", "isaacsim", "isaaclab", "isaaclab_rl", "isaaclab_tasks", "rsl_rl"):
         status = "installed" if importlib.util.find_spec(package) else "not installed"
         print(f"{package}: {status}")
 

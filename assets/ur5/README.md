@@ -41,12 +41,16 @@ wrist_1_joint -> wrist_2_joint -> wrist_3_joint
 环境装好后执行 Isaac Lab 的 URDF importer 时优先使用这个路径：
 
 ```powershell
-D:\Sis\Documents\RL_UR5\assets\ur5\ur5.urdf
+G:\Isaac\RL_UR5\.venv\Scripts\python.exe D:\Sis\Documents\RL_UR5\scripts\convert-urdf.py --headless
 ```
 
-转换前需要确认的选项：
+生成结果位于 `D:\Sis\Documents\RL_UR5\assets\ur5\usd\ur5\ur5.usda`（该目录被 Git 忽略）。
 
-1. 合并固定关节。
-2. 保留六个 revolute 关节。
+转换默认保留以下约定：
+
+1. 不合并固定关节，保留 `wrist_3_flange_fixed_joint` 和 `flange` 工具坐标系，供 Reach 任务的末端位姿追踪使用。
+2. 保留六个 revolute 关节：`shoulder_pan_joint` -> `shoulder_lift_joint` -> `elbow_joint` -> `wrist_1_joint` -> `wrist_2_joint` -> `wrist_3_joint`。
 3. 使用米制单位，重力方向为负 Z。
-4. 第一次先检查生成的 USD 关节顺序是否与本 README 的顺序一致。
+4. 第一次转换后检查生成的 USD 关节顺序是否与本 README 的顺序一致。
+
+如果不需要工具坐标系，可以加 `--merge-fixed-joints` 把固定关节合并进 `wrist_3_link`。
